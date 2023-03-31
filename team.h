@@ -1,5 +1,7 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
+#include <functional>
 #include "player.h"
 
 class Team
@@ -27,20 +29,18 @@ void Team::addPlayer(Player player){ players.push_back(player); }
 
 void Team::removePlayer(Player player)
 {
-    // for (auto it = players.begin(); it != players.end(); ++it) {
-    //     if (*it == player) {
-    //         players.erase(it);
-    //         break;
-    //     }
-    // }
+    auto it = std::find(players.begin(), players.end(), player);
+
+    if(it!=players.end())
+        players.erase(it);
 }
+
+bool compareOveralls(Player p1, Player p2){ return p1.getStats().getOverall()>p2.getStats().getOverall();}
 
 void Team::selectLineup()
 {
-    // Select the lineup based on some player's overall
-    // std::sort(players.begin(), players.end(), [](const Player& p1, const Player& p2) {
-    //     return p1.getStats().getOverall() > p2.getStats().getOverall();
-    // });
+    //Select the lineup based on some player's overall
+    std::sort(players.begin(), players.end(),compareOveralls);
 
     lineup.clear();
     for (int i = 0; i < 2; ++i) {
