@@ -1,0 +1,7 @@
+enum Position
+{
+  GOALKEEPER,
+  DEFENDER,
+  MIDFIELDER,
+  STRIKER  
+};
