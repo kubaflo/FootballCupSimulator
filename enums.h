@@ -5,3 +5,9 @@ enum Position
   MIDFIELDER,
   STRIKER  
 };
+
+enum Game_style
+{
+  OFFENSIVE,
+  DEFFENSIVE
+};

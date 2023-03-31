@@ -8,7 +8,7 @@ int main()
 {
     Player player("Jakub", PlayerStats(10,10,10), STRIKER);
 
-    cout<<player.name;
+    cout<<player.getName();
     
     return 0;
 }
