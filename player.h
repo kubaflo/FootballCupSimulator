@@ -1,7 +1,5 @@
-#include "enums.h"
 #include "player_stats.h"
-
-using namespace std;
+#include "enums.h"
 
 class Player {
     public:

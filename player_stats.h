@@ -1,12 +1,12 @@
 class PlayerStats {
-public:
-    PlayerStats(int attack, int defence, int speed);
-    int getOverall();
+    public:
+        PlayerStats(int attack, int defence, int speed);
+        int getOverall();
 
-private:
-    int attack;
-    int defence;
-    int speed;
+    private:
+        int attack;
+        int defence;
+        int speed;
 };
 
 PlayerStats::PlayerStats(int attack, int defence, int speed)

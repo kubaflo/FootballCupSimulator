@@ -6,7 +6,7 @@ enum Position
   STRIKER  
 };
 
-enum Game_style
+enum Playing_style
 {
   OFFENSIVE,
   DEFFENSIVE
