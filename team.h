@@ -7,25 +7,30 @@
 class Team
 {
     public:
-        Team(std::string name, std::string coach, int skillLevel, Playing_style playingStyle);
+        Team(std::string name, std::string coach, int attackStrength, int defenceStrength);
         void addPlayer(Player player);
         void removePlayer(Player player);
         void selectLineup();
         void printTeam();
+        std::string getName();
+        int getAttackStrength(); //0-10
+        int getDefenceStrength(); //0-10
 
     private:
         std::string name;
         std::string coach;
-        int skillLevel;
-        Playing_style playingStyle;
+        int attackStrength;
+        int defenceStrength;
         std::vector<Player> players;
         std::vector<Player> lineup;
 };
 
-Team::Team(std::string name, std::string coach, int skillLevel, Playing_style playingStyle)
-    :name(name), coach(coach), skillLevel(skillLevel), playingStyle(playingStyle) {};
+Team::Team(std::string name, std::string coach, int attackStrength, int defenceStrength)
+    :name(name), coach(coach), attackStrength(attackStrength), defenceStrength(defenceStrength) {};
 
-void Team::addPlayer(Player player){ players.push_back(player); }
+void Team::addPlayer(Player player) { players.push_back(player); }
+
+std::string Team::getName() { return name;}
 
 void Team::removePlayer(Player player)
 {
@@ -35,7 +40,7 @@ void Team::removePlayer(Player player)
         players.erase(it);
 }
 
-bool compareOveralls(Player p1, Player p2){ return p1.getStats().getOverall()>p2.getStats().getOverall();}
+bool compareOveralls (Player p1, Player p2) { return p1.getStats().getOverall()>p2.getStats().getOverall();}
 
 void Team::selectLineup()
 {
@@ -52,8 +57,8 @@ void Team::printTeam()
 {
     std::cout << "Team: " << name << std::endl;
     std::cout << "Coach: " << coach << std::endl;
-    std::cout << "Skill level: " << skillLevel << std::endl;
-    std::cout << "Playing style: " << playingStyle << std::endl;
+    std::cout << "Attack strength: " << attackStrength << std::endl;
+    std::cout << "Defence strength: " << defenceStrength << std::endl;
 
     std::cout << "Players: " << std::endl;
     for (auto player : players) {
@@ -65,3 +70,7 @@ void Team::printTeam()
         std::cout << "- " << player.getName() << std::endl;
     }
 }
+
+int Team::getAttackStrength() { return attackStrength;}
+
+int Team::getDefenceStrength() { return defenceStrength; }

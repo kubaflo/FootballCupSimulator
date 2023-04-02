@@ -4,9 +4,9 @@
 class Player {
     public:
         Player(std::string name, PlayerStats stats, Position position);
-        std::string getName();
+        std::string getName() const;
         PlayerStats getStats() const;
-        Position getPosition();
+        Position getPosition() const;
 
         bool operator==(const Player& other) const {return name == other.name;}
 
@@ -19,8 +19,8 @@ class Player {
 Player::Player(std::string name, PlayerStats stats, Position position)
     : name(name), stats(stats), position(position) {}
 
-std::string Player::getName(){return name;}
+std::string Player::getName() const {return name;}
 
 PlayerStats Player::getStats() const {return stats;}
 
-Position Player::getPosition() {return position;}
+Position Player::getPosition() const {return position;}

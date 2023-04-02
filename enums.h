@@ -5,9 +5,3 @@ enum Position
   MIDFIELDER,
   STRIKER  
 };
-
-enum Playing_style
-{
-  OFFENSIVE,
-  DEFFENSIVE
-};
