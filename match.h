@@ -2,12 +2,11 @@
 #include <vector>
 #include <random>
 #include <cstdlib>
-#include "team.h"
 
 class Match {
 public:
     Match(Team& home, Team& away);
-    void simulateMatch();
+    Team simulateMatchAndGetWinner();
 
 private:
     Team& homeTeam;
@@ -29,7 +28,7 @@ Match::Match(Team& home, Team& away) :
         homeGoals(0), awayGoals(0), homeShots(0), awayShots(0),
         homeFouls(0), awayFouls(0) {}
 
-void Match::simulateMatch() {
+Team Match::simulateMatchAndGetWinner() {
     std::cout << homeTeam.getName() << " vs " << awayTeam.getName() << std::endl;
     std::cout<<"====First half===="<<std::endl;
     simulateHalf(45);
@@ -39,6 +38,8 @@ void Match::simulateMatch() {
         extraTime();
 
     printMatchStats();
+
+    return homeGoals>awayGoals?homeTeam:awayTeam;
 }
 
 void Match::extraTime()

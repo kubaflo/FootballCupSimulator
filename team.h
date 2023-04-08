@@ -60,6 +60,9 @@ void Team::printTeam()
     std::cout << "Attack strength: " << attackStrength << std::endl;
     std::cout << "Defence strength: " << defenceStrength << std::endl;
 
+    if(players.size()<3)
+        return;
+        
     std::cout << "Players: " << std::endl;
     for (auto player : players) {
         std::cout << "- " << player.getName() << std::endl;
