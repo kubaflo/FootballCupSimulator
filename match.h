@@ -6,13 +6,13 @@
 
 class Match {
 public:
-    Match(Team home, Team away);
+    Match(Team& home, Team& away);
     void simulateMatch();
     void printMatchStats();
 
 private:
-    Team homeTeam;
-    Team awayTeam;
+    Team& homeTeam;
+    Team& awayTeam;
     int homeGoals;
     int awayGoals;
     int homeShots;
@@ -22,7 +22,7 @@ private:
     void simulateHalf(int duration);
 };
 
-Match::Match(Team home, Team away) :
+Match::Match(Team& home, Team& away) :
         homeTeam(home), awayTeam(away),
         homeGoals(0), awayGoals(0), homeShots(0), awayShots(0),
         homeFouls(0), awayFouls(0) {}
