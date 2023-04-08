@@ -14,5 +14,5 @@ PlayerStats::PlayerStats(int attack, int defence, int speed)
 
 int PlayerStats::getOverall() const
 {
-    return (attack * 3 + defence * 2 + speed * 1) / 6;
+    return (attack  +  defence + speed ) / 6;
 }

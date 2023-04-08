@@ -13,8 +13,8 @@ class Team
         void selectLineup();
         void printTeam();
         std::string getName();
-        int getAttackStrength(); //0-10
-        int getDefenceStrength(); //0-10
+        int getAttackStrength();
+        int getDefenceStrength();
 
     private:
         std::string name;
@@ -45,10 +45,10 @@ bool compareOveralls (Player p1, Player p2) { return p1.getStats().getOverall()>
 void Team::selectLineup()
 {
     //Select the lineup based on some player's overall
-    std::sort(players.begin(), players.end(),compareOveralls);
+    std::sort(players.begin(), players.end(), compareOveralls);
 
     lineup.clear();
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 3; ++i) {
         lineup.push_back(players[i]);
     }
 }
@@ -64,6 +64,8 @@ void Team::printTeam()
     for (auto player : players) {
         std::cout << "- " << player.getName() << std::endl;
     }
+
+    selectLineup();
 
     std::cout << "Lineup: " << std::endl;
     for (auto player : lineup) {
