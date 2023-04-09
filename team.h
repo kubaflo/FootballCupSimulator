@@ -7,11 +7,12 @@
 class Team
 {
     public:
-        Team(std::string name, std::string coach, int attackStrength, int defenceStrength);
+        Team(std::string name, std::string coach);
         void addPlayer(Player player);
         void removePlayer(Player player);
         void selectLineup();
-        void printTeam();
+        void printTeam(bool fullInfo);
+        void calculateAttackAndDefenceStrength();
         std::string getName();
         int getAttackStrength();
         int getDefenceStrength();
@@ -25,8 +26,8 @@ class Team
         std::vector<Player> lineup;
 };
 
-Team::Team(std::string name, std::string coach, int attackStrength, int defenceStrength)
-    :name(name), coach(coach), attackStrength(attackStrength), defenceStrength(defenceStrength) {};
+Team::Team(std::string name, std::string coach)
+    :name(name), coach(coach) {};
 
 void Team::addPlayer(Player player) { players.push_back(player); }
 
@@ -53,27 +54,41 @@ void Team::selectLineup()
     }
 }
 
-void Team::printTeam()
+void Team::printTeam(bool fullInfo)
 {
-    std::cout << "Team: " << name << std::endl;
+    if(fullInfo)
+        std::cout << "Team: " << name << std::endl;
+
     std::cout << "Coach: " << coach << std::endl;
     std::cout << "Attack strength: " << attackStrength << std::endl;
     std::cout << "Defence strength: " << defenceStrength << std::endl;
-
-    if(players.size()<3)
-        return;
         
-    std::cout << "Players: " << std::endl;
-    for (auto player : players) {
-        std::cout << "- " << player.getName() << std::endl;
+    if(fullInfo)
+    {
+        std::cout << "Players: " << std::endl;
+        for (auto& player : players) {
+            std::cout << "- " << player.getName() << std::endl;
+        }
     }
-
-    selectLineup();
 
     std::cout << "Lineup: " << std::endl;
-    for (auto player : lineup) {
-        std::cout << "- " << player.getName() << std::endl;
+    for (auto& player : lineup) {
+        std::cout << "- " << player.getName() <<": "<<player.getStats().getOverall()<<std::endl;
     }
+}
+
+void Team::calculateAttackAndDefenceStrength()
+{
+    int totalAttack=0;
+    int totalDefence=0;
+    for(auto& player : players)
+    {
+        totalAttack+=player.getStats().getAttack();
+        totalDefence+=player.getStats().getDefence();
+    }
+    int numberOfPlayers=players.size();
+    attackStrength=totalAttack/numberOfPlayers;
+    defenceStrength=totalDefence/numberOfPlayers;
 }
 
 int Team::getAttackStrength() { return attackStrength;}

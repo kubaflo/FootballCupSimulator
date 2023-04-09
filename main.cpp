@@ -1,6 +1,7 @@
 #include<iostream>
+#include "Tournaments/asia_tournament.h"
+#include "Tournaments/euro_tournament.h"
 
-#include "tournament.h"
 
 using namespace std;
 
@@ -11,10 +12,11 @@ void simulateTournament();
 int main()
 {
 
-printTeamInfo();
-
-    Tournament euro2020;
+    AsiaTournament euro2020;
     euro2020.simulateTournament();
+
+    EuroTournament euro2021;
+    euro2021.simulateTournament();
 
     return 0;
 }

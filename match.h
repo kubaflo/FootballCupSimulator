@@ -30,6 +30,10 @@ Match::Match(Team& home, Team& away) :
 
 Team Match::simulateMatchAndGetWinner() {
     std::cout << homeTeam.getName() << " vs " << awayTeam.getName() << std::endl;
+    std::cout<<"===="<<homeTeam.getName()<<"===="<<std::endl;
+    homeTeam.printTeam(false);
+    std::cout<<"===="<<awayTeam.getName()<<"===="<<std::endl;
+    awayTeam.printTeam(false);
     std::cout<<"====First half===="<<std::endl;
     simulateHalf(45);
     std::cout<<"====Second half===="<<std::endl;
@@ -56,9 +60,9 @@ void Match::extraTime()
 void Match::penalties()
 {
     std::cout << "====Penalties====" << std::endl;
-    int random=rand()%2;
+    int winner=rand()%2;
     int numbersOfPenaltiesScoredToWin=rand()%10+1;
-    if(rand==0) 
+    if(winner==0) 
     {
         std::cout << homeTeam.getName() << " " << numbersOfPenaltiesScoredToWin << " - " << numbersOfPenaltiesScoredToWin-1 << " " << awayTeam.getName() << std::endl;
         homeGoals++;
@@ -73,10 +77,10 @@ void Match::penalties()
 void Match::simulateHalf (int duration) {
     srand(time(NULL));
     int homeChance = (homeTeam.getAttackStrength() + awayTeam.getDefenceStrength())/2;
-    int awayChance = (awayTeam.getAttackStrength() + homeTeam.getDefenceStrength())/2;
+    int awayChance = (awayTeam.getAttackStrength() + homeTeam.getDefenceStrength())/2+100;
     for (int time = 1; time <= duration/5; ++time) {
 
-        int random=rand()%2500+1;
+        int random=rand()%500+1;
         if (random <= homeChance) {
             std::cout << homeTeam.getName() << " scores!" << std::endl;
             homeGoals++;
@@ -94,7 +98,7 @@ void Match::simulateHalf (int duration) {
 
 void Match::printMatchStats() {
     std::cout << "====Statistics===="<<std::endl;
-    std::cout << homeTeam.getName() << " " << homeGoals << " - " << awayGoals << " " << awayTeam.getName() << std::endl;
+    std::cout << "Score: " << homeTeam.getName() << " " << homeGoals << " - " << awayGoals << " " << awayTeam.getName() << std::endl;
     std::cout << "Shots: " << homeShots << " - " << awayShots << std::endl;
     std::cout << "Fouls: " << homeFouls << " - " << awayFouls << std::endl;
 }
