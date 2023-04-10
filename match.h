@@ -81,13 +81,10 @@ void Match::simulateHalf (int duration) {
     for (int time = 1; time <= duration/5; ++time) {
 
         int random=rand()%500+1;
-        if (random <= homeChance) {
-            std::cout << homeTeam.getName() << " scores!" << std::endl;
+        if (random <= homeChance)
             homeGoals++;
-        } else if(random>homeChance && random<=awayChance) {
-            std::cout << awayTeam.getName() << " scores!" << std::endl;
-            awayGoals++;
-        }
+        else if(random>homeChance && random<=awayChance) 
+            awayGoals++;        
     }
     homeShots+=(homeGoals+(rand()%3+1));
     homeFouls+=(rand()%3+1);
@@ -98,7 +95,7 @@ void Match::simulateHalf (int duration) {
 
 void Match::printMatchStats() {
     std::cout << "====Statistics===="<<std::endl;
-    std::cout << "Score: " << homeTeam.getName() << " " << homeGoals << " - " << awayGoals << " " << awayTeam.getName() << std::endl;
+    std::cout << "Score: " << homeGoals << " - " << awayGoals << std::endl;
     std::cout << "Shots: " << homeShots << " - " << awayShots << std::endl;
     std::cout << "Fouls: " << homeFouls << " - " << awayFouls << std::endl;
 }

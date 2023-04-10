@@ -35,19 +35,21 @@ void Tournament::simulateTournament()
     generateTeams();
     chooseTeamsForTournament();
 
-    std::cout<<std::endl<<std::endl<<"=====Semifinal I====="<<std::endl;
+    std::cout<<"=======SEMIFINALS========"<<std::endl<<std::endl;
     Match semifinal1(allTeams[0],allTeams[1]);
     Team semifinal1Winner=semifinal1.simulateMatchAndGetWinner();
 
-    std::cout<<std::endl<<std::endl<<"=====Semifinal 2====="<<std::endl;
+    std::cout<<std::endl<<std::endl<<std::endl;
     Match semifinal2(allTeams[2],allTeams[3]);
     Team semifinal2Winner=semifinal2.simulateMatchAndGetWinner();
 
-    std::cout<<std::endl<<std::endl<<"=====Final====="<<std::endl;
+    std::cout<<std::endl<<std::endl<<std::endl;
+    std::cout<<"=======FINAL========"<<std::endl<<std::endl;
     Match final(semifinal1Winner,semifinal2Winner);
     Team finalWinner=final.simulateMatchAndGetWinner();
 
-    std::cout<<std::endl<<std::endl<<"WINNER"<<std::endl;
+    std::cout<<std::endl<<std::endl<<std::endl;
+    std::cout<<std::endl<<"=======WINNER======="<<std::endl;
     finalWinner.printTeam(true);
 }
 
