@@ -18,40 +18,44 @@ class Tournament
         std::vector<Team> selectedTeams;
         virtual void generateTeams()= 0;
         void addPlayersToTeams();
-        void chooseTeamsForTournament();
+        void chooseTeamsForTournament(int numberOfTeams);
 };
 
 
 void Tournament::addCustomTeam(Team team) { allTeams.push_back(team); }
 
-void Tournament::chooseTeamsForTournament()
+void Tournament::chooseTeamsForTournament(int numberOfTeams)
 {
-    for(int i=0;i<allTeams.size();i++)
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(allTeams), std::end(allTeams), rng);
+
+    for(int i=0;i<numberOfTeams;i++)
         selectedTeams.push_back(allTeams[i]);
 }
 
 void Tournament::simulateTournament(InitialRound initialRound)
 {
     generateTeams();
-    chooseTeamsForTournament();
 
     Match match;
     Team* winner[4];
 
     if(initialRound==QUARTER_FINAL)
     {
+        chooseTeamsForTournament(8);
         std::cout<<"=======QUARTER-FINALS========"<<std::endl<<std::endl;
-        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
-        winner[1]= match.simulateMatchAndGetWinner(allTeams[2],allTeams[3]);
-        winner[2]= match.simulateMatchAndGetWinner(allTeams[4],allTeams[5]);
-        winner[3]= match.simulateMatchAndGetWinner(allTeams[6],allTeams[7]);
+        winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
+        winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
+        winner[2]= match.simulateMatchAndGetWinner(selectedTeams[4],selectedTeams[5]);
+        winner[3]= match.simulateMatchAndGetWinner(selectedTeams[6],selectedTeams[7]);
     }
 
     if(initialRound==SEMI_FINAL)
     {
+        chooseTeamsForTournament(4);
         std::cout<<"=======SEMI-FINALS========"<<std::endl<<std::endl;
-        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
-        winner[1]= match.simulateMatchAndGetWinner(allTeams[2],allTeams[3]);
+        winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
+        winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
     }
     else if(initialRound==QUARTER_FINAL)
     {
@@ -62,7 +66,10 @@ void Tournament::simulateTournament(InitialRound initialRound)
 
     std::cout<<"=======FINAL========"<<std::endl<<std::endl;
     if(initialRound==FINAL)
-        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
+    {
+        chooseTeamsForTournament(2);
+        winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
+    }
     else 
         winner[0] = match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
 

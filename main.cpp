@@ -13,7 +13,7 @@ int main()
 {
 
     EuroTournament euro2021;
-    euro2021.simulateTournament(QUARTER_FINAL);
+    euro2021.simulateTournament(FINAL);
 
     return 0;
 }
