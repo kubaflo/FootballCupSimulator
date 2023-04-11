@@ -5,59 +5,52 @@
 
 class Match {
 public:
-    Match(Team& home, Team& away);
-    Team simulateMatchAndGetWinner();
+    Team* simulateMatchAndGetWinner(Team& home, Team& away);
 
 private:
-    Team& homeTeam;
-    Team& awayTeam;
     int homeGoals;
     int awayGoals;
     int homeShots;
     int awayShots;
     int homeFouls;
     int awayFouls;
-    void simulateHalf(int duration);
-    void extraTime();
-    void penalties();
+    void simulateHalf(Team& homeTeam, Team& awayTeam,int duration);
+    void extraTime(Team& homeTeam, Team& awayTeam);
+    void penalties(Team& homeTeam, Team& awayTeam);
     void printMatchStats();
 };
 
-Match::Match(Team& home, Team& away) :
-        homeTeam(home), awayTeam(away),
-        homeGoals(0), awayGoals(0), homeShots(0), awayShots(0),
-        homeFouls(0), awayFouls(0) {}
-
-Team Match::simulateMatchAndGetWinner() {
+Team* Match::simulateMatchAndGetWinner(Team& homeTeam, Team& awayTeam) {
+    homeGoals=awayGoals=homeShots=awayShots=homeFouls=awayFouls=0;
     std::cout << homeTeam.getName() << " vs " << awayTeam.getName() << std::endl;
     std::cout<<"===="<<homeTeam.getName()<<"===="<<std::endl;
     homeTeam.printTeam(false);
     std::cout<<"===="<<awayTeam.getName()<<"===="<<std::endl;
     awayTeam.printTeam(false);
     std::cout<<"====First half===="<<std::endl;
-    simulateHalf(45);
+    simulateHalf(homeTeam,awayTeam,45);
     std::cout<<"====Second half===="<<std::endl;
-    simulateHalf(45);
+    simulateHalf(homeTeam,awayTeam,45);
     if (homeGoals == awayGoals)
-        extraTime();
+        extraTime(homeTeam,awayTeam);
 
     printMatchStats();
 
-    return homeGoals>awayGoals?homeTeam:awayTeam;
+    return homeGoals>awayGoals?&homeTeam:&awayTeam;
 }
 
-void Match::extraTime()
+void Match::extraTime(Team& homeTeam, Team& awayTeam)
 {
     std::cout << "Extra time:" << std::endl;
     std::cout<<"====First half===="<<std::endl;
-    simulateHalf(15);
+    simulateHalf(homeTeam,awayTeam,15);
     std::cout<<"====Second half===="<<std::endl;
-    simulateHalf(15);
+    simulateHalf(homeTeam,awayTeam,15);
     if(homeGoals==awayGoals)
-        penalties();
+        penalties(homeTeam,awayTeam);
 }
 
-void Match::penalties()
+void Match::penalties(Team& homeTeam, Team& awayTeam)
 {
     std::cout << "====Penalties====" << std::endl;
     int winner=rand()%2;
@@ -74,7 +67,7 @@ void Match::penalties()
     }
 }
 
-void Match::simulateHalf (int duration) {
+void Match::simulateHalf (Team& homeTeam, Team& awayTeam,int duration) {
     srand(time(NULL));
     int homeChance = (homeTeam.getAttackStrength() + awayTeam.getDefenceStrength())/2;
     int awayChance = (awayTeam.getAttackStrength() + homeTeam.getDefenceStrength())/2+100;

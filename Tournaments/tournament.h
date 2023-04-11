@@ -11,7 +11,7 @@ class Tournament
 {
     public:
         void addCustomTeam(Team team);
-        void simulateTournament();
+        void simulateTournament(InitialRound initialRound);
 
     protected:
         std::vector<Team> allTeams;
@@ -30,27 +30,44 @@ void Tournament::chooseTeamsForTournament()
         selectedTeams.push_back(allTeams[i]);
 }
 
-void Tournament::simulateTournament()
+void Tournament::simulateTournament(InitialRound initialRound)
 {
     generateTeams();
     chooseTeamsForTournament();
 
-    std::cout<<"=======SEMIFINALS========"<<std::endl<<std::endl;
-    Match semifinal1(allTeams[0],allTeams[1]);
-    Team semifinal1Winner=semifinal1.simulateMatchAndGetWinner();
+    Match match;
+    Team* winner[4];
 
-    std::cout<<std::endl<<std::endl<<std::endl;
-    Match semifinal2(allTeams[2],allTeams[3]);
-    Team semifinal2Winner=semifinal2.simulateMatchAndGetWinner();
+    if(initialRound==QUARTER_FINAL)
+    {
+        std::cout<<"=======QUARTER-FINALS========"<<std::endl<<std::endl;
+        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
+        winner[1]= match.simulateMatchAndGetWinner(allTeams[2],allTeams[3]);
+        winner[2]= match.simulateMatchAndGetWinner(allTeams[4],allTeams[5]);
+        winner[3]= match.simulateMatchAndGetWinner(allTeams[6],allTeams[7]);
+    }
 
-    std::cout<<std::endl<<std::endl<<std::endl;
+    if(initialRound==SEMI_FINAL)
+    {
+        std::cout<<"=======SEMI-FINALS========"<<std::endl<<std::endl;
+        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
+        winner[1]= match.simulateMatchAndGetWinner(allTeams[2],allTeams[3]);
+    }
+    else if(initialRound==QUARTER_FINAL)
+    {
+        std::cout<<"=======SEMI-FINALS========"<<std::endl<<std::endl;
+        winner[0]= match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
+        winner[1]= match.simulateMatchAndGetWinner(*winner[2],*winner[3]);
+    }
+
     std::cout<<"=======FINAL========"<<std::endl<<std::endl;
-    Match final(semifinal1Winner,semifinal2Winner);
-    Team finalWinner=final.simulateMatchAndGetWinner();
+    if(initialRound==FINAL)
+        winner[0]= match.simulateMatchAndGetWinner(allTeams[0],allTeams[1]);
+    else 
+        winner[0] = match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
 
-    std::cout<<std::endl<<std::endl<<std::endl;
-    std::cout<<std::endl<<"=======WINNER======="<<std::endl;
-    finalWinner.printTeam(true);
+    std::cout<<std::endl<<"=======WINNER======="<<std::endl<<std::endl;
+    winner[0]->printTeam(true);
 }
 
 void Tournament::addPlayersToTeams()

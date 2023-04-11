@@ -12,11 +12,8 @@ void simulateTournament();
 int main()
 {
 
-    AsiaTournament euro2020;
-    euro2020.simulateTournament();
-
     EuroTournament euro2021;
-    euro2021.simulateTournament();
+    euro2021.simulateTournament(QUARTER_FINAL);
 
     return 0;
 }
