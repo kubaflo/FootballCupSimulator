@@ -38,7 +38,7 @@ void Tournament::simulateTournament(InitialRound initialRound)
     generateTeams();
 
     Match match;
-    Team* winner[4];
+    Team* winner[(int)initialRound];
 
     if(initialRound==QUARTER_FINAL)
     {
@@ -83,11 +83,11 @@ void Tournament::addPlayersToTeams()
     {
         for (int i = 0; i < 5; i++) {
             std::string player_name = "Player " + std::to_string(i+1);
-            int attack = rand() % 91 + 10; // generate a random number between 10 and 100
-            int defence = rand() % 91 + 10; // generate a random number between 10 and 100
-            int speed = rand() % 91 + 10; // generate a random number between 10 and 100
-            Position position = Position(i % 3); // alternate between the four positions
-            PlayerStats stats(attack, defence, speed); // set the player's goal count to 0
+            int attack = rand() % 91 + 10;
+            int defence = rand() % 91 + 10;
+            int speed = rand() % 91 + 10;
+            Position position = Position(i % 3);
+            PlayerStats stats(attack, defence, speed);
             team.addPlayer(Player(player_name, stats, position));
         }
         team.selectLineup();

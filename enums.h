@@ -8,7 +8,7 @@ enum Position
 
 enum InitialRound
 {
-  QUARTER_FINAL,
-  SEMI_FINAL,
-  FINAL
+  QUARTER_FINAL=8,
+  SEMI_FINAL=4,
+  FINAL=2
 };
