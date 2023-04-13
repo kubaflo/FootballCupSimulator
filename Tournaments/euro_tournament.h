@@ -5,6 +5,7 @@
 
 class EuroTournament : public Tournament
 {
+    protected:
     void generateTeams() override
     {
         allTeams.push_back(Team("France", "Didier Deschamps"));

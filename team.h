@@ -56,24 +56,24 @@ void Team::selectLineup()
 
 void Team::printTeam(bool fullInfo)
 {
-    if(fullInfo)
+    if(fullInfo) {
         std::cout << "Team: " << name << std::endl;
+    }
 
     std::cout << "Coach: " << coach << std::endl;
-    std::cout << "Attack strength: " << attackStrength << std::endl;
-    std::cout << "Defence strength: " << defenceStrength << std::endl;
-        
-    if(fullInfo)
-    {
+    std::cout << "Attack Strength: " << attackStrength << std::endl;
+    std::cout << "Defence Strength: " << defenceStrength << std::endl;
+
+    if(fullInfo) {
         std::cout << "Players: " << std::endl;
         for (auto& player : players) {
             std::cout << "- " << player.getName() << std::endl;
         }
     }
 
-    std::cout << "Lineup: " << std::endl;
+    std::cout << "Starting Lineup: " << std::endl;
     for (auto& player : lineup) {
-        std::cout << "- " << player.getName() <<": "<<player.getStats().getOverall()<<std::endl;
+        std::cout << "- " << player.getName() << ": Overall Rating - "<< player.getStats().getOverall() << std::endl;
     }
 }
 

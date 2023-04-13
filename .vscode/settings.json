@@ -62,6 +62,7 @@
         "algorithm": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "iomanip": "cpp"
     }
 }
