@@ -3,12 +3,16 @@
 
 #include "../team.h"
 #include "../match.h"
+#include "../user_interface.h"
 #include <vector>
 #include <algorithm>
 #include <random>
 
 class Tournament
 {
+    private:
+        UserInterface userInterface;
+
     public:
         void addCustomTeam(Team team);
         void simulateTournament(InitialRound initialRound);
@@ -43,9 +47,7 @@ void Tournament::simulateTournament(InitialRound initialRound)
     if(initialRound==QUARTER_FINAL)
     {
         chooseTeamsForTournament(8);
-         std::cout << "=============================" << std::endl;
-        std::cout << "=== QUARTER-FINALS MATCHES ===" << std::endl;
-        std::cout << "=============================" << std::endl << std::endl;
+        userInterface.print("--- QUARTER-FINALS MATCHES ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
         winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
         winner[2]= match.simulateMatchAndGetWinner(selectedTeams[4],selectedTeams[5]);
@@ -55,24 +57,18 @@ void Tournament::simulateTournament(InitialRound initialRound)
     if(initialRound==SEMI_FINAL)
     {
         chooseTeamsForTournament(4);
-        std::cout << "=============================" << std::endl;
-        std::cout << "=== SEMI-FINALS MATCHES ===" << std::endl;
-        std::cout << "=============================" << std::endl << std::endl;
+        userInterface.print("--- SEMI-FINALS MATCHES  ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
         winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
     }
     else if(initialRound==QUARTER_FINAL)
     {
-        std::cout << "=============================" << std::endl;
-        std::cout << "=== SEMI-FINALS RESULTS ===" << std::endl;
-        std::cout << "=============================" << std::endl << std::endl;
+        userInterface.print("--- SEMI-FINALS RESULTS ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
         winner[1]= match.simulateMatchAndGetWinner(*winner[2],*winner[3]);
     }
 
-    std::cout << "=============================" << std::endl;
-    std::cout << "=== FINAL MATCH ===" << std::endl;
-    std::cout << "=============================" << std::endl << std::endl;
+    userInterface.print("--- FINAL MATCH ---\n",userInterface.COLOR_GREEN);
     if(initialRound==FINAL)
     {
         chooseTeamsForTournament(2);
@@ -81,9 +77,7 @@ void Tournament::simulateTournament(InitialRound initialRound)
     else 
         winner[0] = match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
 
-    std::cout << std::endl << "=============================" << std::endl;
-    std::cout << "=== WINNER OF THE TOURNAMENT ===" << std::endl;
-    std::cout << "=============================" << std::endl << std::endl;
+    userInterface.print("--- WINNER OF THE TOURNAMENT ---\n",userInterface.COLOR_GREEN);
     winner[0]->printTeam(true);
 }
 

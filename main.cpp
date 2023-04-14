@@ -5,34 +5,25 @@
 #include "Tournaments/asia_tournament.h"
 #include "Tournaments/euro_tournament.h"
 #include "Tournaments/africa_tournament.h"
-
-
-using namespace std;
-
-// Define constants for console colors
-const string COLOR_RESET = "\033[0m";
-const string COLOR_BOLD = "\033[1m";
-const string COLOR_UNDERLINE = "\033[4m";
-const string COLOR_RED = "\033[31m";
-const string COLOR_GREEN = "\033[32m";
-const string COLOR_YELLOW = "\033[33m";
-const string COLOR_BLUE = "\033[34m";
+#include "user_interface.h"
 
 int main()
 {
     int choice;
     Tournament* tournament;
     InitialRound initialRound;
+    UserInterface userInterface;
+    
 
     while (true)
     {
-        // Print menu with options
-        cout << endl << COLOR_BOLD << "Select a tournament to simulate:" << COLOR_RESET << endl;
-        cout << COLOR_YELLOW << "1. Euro" << endl;
-        cout << "2. Africa" << endl;
-        cout << "3. Asia" << COLOR_RESET << endl;
+        system("clear");
+        userInterface.print("Select a tournament to simulate:\n",userInterface.COLOR_YELLOW);
+        userInterface.print("1. Euro\n",userInterface.COLOR_RED);
+        userInterface.print("2. Africa\n",userInterface.COLOR_RED);
+        userInterface.print("3. Asia\n",userInterface.COLOR_RED);
 
-        cin >> choice;
+        std::cin >> choice;
         if (choice == 1)
             tournament = new EuroTournament();
         else if (choice == 2)
@@ -40,26 +31,23 @@ int main()
         else if (choice == 3)
             tournament = new AsiaTournament();
 
-        // Print options for initial round
-        cout << endl << COLOR_BOLD << "Select a starting stage:" << COLOR_RESET << endl;
-        cout << COLOR_YELLOW << "1. Quarter-Final" << endl;
-        cout << "2. Semi-Final" << endl;
-        cout << "3. Final" << COLOR_RESET << endl;
-        cin >> choice;
+        userInterface.print("\nSelect a starting stage\n",userInterface.COLOR_YELLOW);
+        userInterface.print("1. Quarter-Final\n",userInterface.COLOR_RED);
+        userInterface.print("2. Semi-Final\n",userInterface.COLOR_RED);
+        userInterface.print("3. Final\n",userInterface.COLOR_RED);
+        std::cin >> choice;
         initialRound = choice == 1 ? QUARTER_FINAL : choice == 2 ? SEMI_FINAL : FINAL;
         tournament->simulateTournament(initialRound);
-
-        // Print options for continuing or exiting
-        cout << endl << COLOR_BOLD << "What would you like to do next?" << COLOR_RESET << endl;
-        cout << COLOR_YELLOW << "1. Back to menu" << endl;
-        cout << "2. Close" << COLOR_RESET << endl;
-        cin >> choice;
+        
+        userInterface.print("\nWhat would you like to do next?\n",userInterface.COLOR_YELLOW);
+        userInterface.print("1. Back to menu\n",userInterface.COLOR_BLUE);
+        userInterface.print("2. Close\n",userInterface.COLOR_RED);
+        std::cin >> choice;
 
         if (choice == 2)
             break;
 
         // Clear the console for the next iteration
-        system("clear");
     }
 
     return 0;

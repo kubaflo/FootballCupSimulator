@@ -2,12 +2,14 @@
 #include <vector>
 #include <random>
 #include <cstdlib>
+#include "user_interface.h"
 
 class Match {
 public:
     Team* simulateMatchAndGetWinner(Team& home, Team& away);
 
 private:
+    UserInterface userInterface;
     int homeGoals;
     int awayGoals;
     int homeShots;
@@ -23,52 +25,52 @@ private:
 Team* Match::simulateMatchAndGetWinner(Team& homeTeam, Team& awayTeam) {
     homeGoals=awayGoals=homeShots=awayShots=homeFouls=awayFouls=0;
     // Display the match details
-    std::cout << "MATCH: " << homeTeam.getName() << " vs " << awayTeam.getName() << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
-    std::cout << "HOME TEAM" << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
+    userInterface.print("MATCH: " + homeTeam.getName() + " vs " + awayTeam.getName()+"\n",userInterface.COLOR_BOLD);
+    userInterface.printLine();
+    userInterface.print("HOME TEAM\n",userInterface.COLOR_GREEN);
+    userInterface.printLine();
     homeTeam.printTeam(true);
-    std::cout << "---------------------------------------" << std::endl;
-    std::cout << "AWAY TEAM" << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
+    userInterface.print("AWAY TEAM\n",userInterface.COLOR_GREEN);
+    userInterface.printLine();
     awayTeam.printTeam(true);
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
 
     // Simulate first half
-    std::cout << "FIRST HALF" << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.print("FIRST HALF\n",userInterface.COLOR_GREEN);
+    userInterface.printLine();
     simulateHalf(homeTeam,awayTeam,45);
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
 
     // Simulate second half
-    std::cout << "SECOND HALF" << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.print("SECOND HALF\n",userInterface.COLOR_GREEN);
+    userInterface.printLine();
     simulateHalf(homeTeam,awayTeam,45);
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
 
     // Check for tie and simulate extra time if necessary
     if (homeGoals == awayGoals) {
-        std::cout << "EXTRA TIME" << std::endl;
-        std::cout << "---------------------------------------" << std::endl;
+        userInterface.printLine();
         extraTime(homeTeam,awayTeam);
-        std::cout << "---------------------------------------" << std::endl;
+        userInterface.printLine();
     }
 
     // Display match statistics and return winner
-    std::cout << "MATCH STATS" << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.print("MATCH STATS\n",userInterface.COLOR_GREEN);
+    userInterface.printLine();
     printMatchStats(homeTeam,awayTeam);
-    std::cout << "---------------------------------------" << std::endl;
+    userInterface.printLine();
 
     return homeGoals>awayGoals?&homeTeam:&awayTeam;
 }
 
 void Match::extraTime(Team& homeTeam, Team& awayTeam)
 {
-    std::cout << "Extra time:" << std::endl;
-    std::cout<<"====First half===="<<std::endl;
+    userInterface.print("EXTRA TIME:\n",userInterface.COLOR_GREEN);
+    userInterface.print("---First half---\n",userInterface.COLOR_BOLD);
     simulateHalf(homeTeam,awayTeam,15);
-    std::cout<<"====Second half===="<<std::endl;
+    userInterface.print("---Second half---\n",userInterface.COLOR_BOLD);
     simulateHalf(homeTeam,awayTeam,15);
     if(homeGoals==awayGoals)
         penalties(homeTeam,awayTeam);
@@ -83,20 +85,18 @@ void Match::penalties(Team& homeTeam, Team& awayTeam)
     int numbersOfPenaltiesScoredToWin = rand() % 10 + 1;
 
     // Display the penalty shootout results
-    std::cout << "==== Penalty Shootout ====" << std::endl;
-    std::cout << "Both teams scored the same number of goals in the extra time period." << std::endl;
-    std::cout << "The match will be decided by a penalty shootout." << std::endl;
+    userInterface.print("--- Penalty Shootout ---\n",userInterface.COLOR_BOLD);
 
     if (winner == 0) 
     {
         // Home team wins the penalty shootout
-        std::cout << homeTeam.getName() << " " << numbersOfPenaltiesScoredToWin << " - " << numbersOfPenaltiesScoredToWin-1 << " " << awayTeam.getName() << std::endl;
+        userInterface.print(homeTeam.getName() + " " + std::to_string(numbersOfPenaltiesScoredToWin) + " - " + std::to_string(numbersOfPenaltiesScoredToWin-1) + " " + awayTeam.getName()+'\n',userInterface.COLOR_BOLD);
         homeGoals++;
     }
     else 
     {
         // Away team wins the penalty shootout
-        std::cout << homeTeam.getName() << " " << numbersOfPenaltiesScoredToWin-1 << " - " << numbersOfPenaltiesScoredToWin << " " << awayTeam.getName() << std::endl;
+        userInterface.print(homeTeam.getName() + " " + std::to_string(numbersOfPenaltiesScoredToWin-1) + " - " + std::to_string(numbersOfPenaltiesScoredToWin) + " " + awayTeam.getName()+'\n',userInterface.COLOR_BOLD);
         awayGoals++;
     }
 }
@@ -123,16 +123,15 @@ void Match::simulateHalf (Team& homeTeam, Team& awayTeam,int duration) {
     awayFouls += (rand() % 3 + 1);
 
     // Print the match result
-    std::cout << "The match result is:" << std::endl;
-    std::cout << homeGoals << " - " << awayGoals << std::endl;
+    userInterface.print("The match result is "+std::to_string(homeGoals) +'-'+ std::to_string(awayGoals)+'\n',userInterface.COLOR_BOLD);
 }
 
 void Match::printMatchStats(Team& homeTeam, Team& awayTeam) {
-    std::cout << "Final Score: " << homeGoals << " - " << awayGoals << std::endl;
-    std::cout << "Total Shots: " << homeShots + awayShots << std::endl;
-    std::cout << homeTeam.getName() << " Shots: " << homeShots << std::endl;
-    std::cout << awayTeam.getName() << " Shots: " << awayShots << std::endl;
-    std::cout << "Total Fouls: " << homeFouls + awayFouls << std::endl;
-    std::cout << homeTeam.getName() << " Fouls: " << homeFouls << std::endl;
-    std::cout << awayTeam.getName() << " Fouls: " << awayFouls << std::endl;
+    userInterface.print("Final Score: "+ std::to_string(homeGoals) + " - " + std::to_string(awayGoals)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print("Total Shots "+ std::to_string(homeGoals+awayGoals)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print(homeTeam.getName()+ " Shots: "+ std::to_string(homeShots)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print(awayTeam.getName()+ " Shots: "+ std::to_string(homeShots)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print("Total Fouls "+ std::to_string(homeFouls+awayFouls)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print(homeTeam.getName()+ " Fouls: "+ std::to_string(homeShots)+'\n',userInterface.COLOR_BLUE);
+    userInterface.print(awayTeam.getName()+ " Fouls: "+ std::to_string(awayFouls)+'\n',userInterface.COLOR_BLUE);
 }

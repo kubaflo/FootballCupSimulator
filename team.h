@@ -3,6 +3,7 @@
 #include <vector>
 #include <functional>
 #include "player.h"
+#include "user_interface.h"
 
 class Team
 {
@@ -18,6 +19,7 @@ class Team
         int getDefenceStrength();
 
     private:
+        UserInterface userInterface;
         std::string name;
         std::string coach;
         int attackStrength;
@@ -57,23 +59,23 @@ void Team::selectLineup()
 void Team::printTeam(bool fullInfo)
 {
     if(fullInfo) {
-        std::cout << "Team: " << name << std::endl;
+        userInterface.print("Team: "+name+'\n',userInterface.COLOR_YELLOW);
     }
 
-    std::cout << "Coach: " << coach << std::endl;
-    std::cout << "Attack Strength: " << attackStrength << std::endl;
-    std::cout << "Defence Strength: " << defenceStrength << std::endl;
+    userInterface.print("Coach: "+name+'\n',userInterface.COLOR_YELLOW);
+    userInterface.print("Attack Strength: "+std::to_string(attackStrength)+'\n',userInterface.COLOR_YELLOW);
+    userInterface.print("Defence Strength: "+std::to_string(defenceStrength)+'\n',userInterface.COLOR_YELLOW);
 
     if(fullInfo) {
-        std::cout << "Players: " << std::endl;
+        userInterface.print("Players:\n",userInterface.COLOR_YELLOW);
         for (auto& player : players) {
-            std::cout << "- " << player.getName() << std::endl;
+            userInterface.print("- " + player.getName()+'\n',userInterface.COLOR_UNDERLINE);
         }
     }
 
-    std::cout << "Starting Lineup: " << std::endl;
+    userInterface.print("Starting Lineup:\n",userInterface.COLOR_YELLOW);
     for (auto& player : lineup) {
-        std::cout << "- " << player.getName() << ": Overall Rating - "<< player.getStats().getOverall() << std::endl;
+        userInterface.print("- " + player.getName() + ": Overall Rating - " + std::to_string(player.getStats().getOverall())+'\n',userInterface.COLOR_UNDERLINE);
     }
 }
 
