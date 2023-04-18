@@ -63,6 +63,8 @@
         "numeric": "cpp",
         "random": "cpp",
         "functional": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "deque": "cpp",
+        "stack": "cpp"
     }
 }

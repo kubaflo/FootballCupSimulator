@@ -7,22 +7,23 @@
 #include <vector>
 #include <algorithm>
 #include <random>
+#include <stack>
 
 class Tournament
 {
     private:
         UserInterface userInterface;
 
-    public:
-        void addCustomTeam(Team team);
-        void simulateTournament(InitialRound initialRound);
-
     protected:
         std::vector<Team> allTeams;
         std::vector<Team> selectedTeams;
         virtual void generateTeams()= 0;
         void addPlayersToTeams();
-        void chooseTeamsForTournament(int numberOfTeams);
+        void chooseTeamsForTournament(int numberOfTeams);        
+
+    public:
+        void addCustomTeam(Team team);
+        void simulateTournament(InitialRound initialRound);
 };
 
 
@@ -30,11 +31,29 @@ void Tournament::addCustomTeam(Team team) { allTeams.push_back(team); }
 
 void Tournament::chooseTeamsForTournament(int numberOfTeams)
 {
-    // auto rng = std::default_random_engine {};
-    // std::shuffle(std::begin(allTeams), std::end(allTeams), rng);
+    bool isNumberSelected[numberOfTeams];
+    int randomNumber;
+    std::stack<int> selectedNumbers;
+    
+    while(numberOfTeams>0)
+    {
+        do
+        {
+            randomNumber=rand()%allTeams.size();
+        } while(isNumberSelected[randomNumber]);
 
-    for(int i=0;i<numberOfTeams;i++)
-        selectedTeams.push_back(allTeams[i]);
+        isNumberSelected[randomNumber]=true;
+        selectedNumbers.push(randomNumber); 
+        numberOfTeams--;
+    }
+
+    while(!selectedNumbers.empty())
+    {
+        srand(time(NULL));
+        std::cout<<selectedNumbers.top()<<"xxx";
+        selectedTeams.push_back(allTeams[selectedNumbers.top()]);
+        selectedNumbers.pop();
+    }
 }
 
 void Tournament::simulateTournament(InitialRound initialRound)
@@ -47,7 +66,7 @@ void Tournament::simulateTournament(InitialRound initialRound)
     if(initialRound==QUARTER_FINAL)
     {
         chooseTeamsForTournament(8);
-        userInterface.print("--- QUARTER-FINALS MATCHES ---\n",userInterface.COLOR_GREEN);
+        userInterface.print("\n\n--- QUARTER-FINALS MATCHES ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
         winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
         winner[2]= match.simulateMatchAndGetWinner(selectedTeams[4],selectedTeams[5]);
@@ -57,18 +76,18 @@ void Tournament::simulateTournament(InitialRound initialRound)
     if(initialRound==SEMI_FINAL)
     {
         chooseTeamsForTournament(4);
-        userInterface.print("--- SEMI-FINALS MATCHES  ---\n",userInterface.COLOR_GREEN);
+        userInterface.print("\n\n--- SEMI-FINALS MATCHES  ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(selectedTeams[0],selectedTeams[1]);
         winner[1]= match.simulateMatchAndGetWinner(selectedTeams[2],selectedTeams[3]);
     }
     else if(initialRound==QUARTER_FINAL)
     {
-        userInterface.print("--- SEMI-FINALS RESULTS ---\n",userInterface.COLOR_GREEN);
+        userInterface.print("\n\n--- SEMI-FINALS RESULTS ---\n",userInterface.COLOR_GREEN);
         winner[0]= match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
         winner[1]= match.simulateMatchAndGetWinner(*winner[2],*winner[3]);
     }
 
-    userInterface.print("--- FINAL MATCH ---\n",userInterface.COLOR_GREEN);
+    userInterface.print("\n\n--- FINAL MATCH ---\n",userInterface.COLOR_GREEN);
     if(initialRound==FINAL)
     {
         chooseTeamsForTournament(2);
@@ -77,7 +96,7 @@ void Tournament::simulateTournament(InitialRound initialRound)
     else 
         winner[0] = match.simulateMatchAndGetWinner(*winner[0],*winner[1]);
 
-    userInterface.print("--- WINNER OF THE TOURNAMENT ---\n",userInterface.COLOR_GREEN);
+    userInterface.print("\n\n--- WINNER OF THE TOURNAMENT ---\n",userInterface.COLOR_GREEN);
     winner[0]->printTeam(true);
 }
 

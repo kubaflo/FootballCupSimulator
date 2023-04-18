@@ -1,15 +1,15 @@
 class PlayerStats {
+    private:
+        int attack;
+        int defence;
+        int speed;
+
     public:
         PlayerStats(int attack, int defence, int speed);
         int getAttack() const;
         int getDefence() const;
         int getSpeed() const;
         int getOverall() const;
-
-    private:
-        int attack;
-        int defence;
-        int speed;
 };
 
 PlayerStats::PlayerStats(int attack, int defence, int speed)

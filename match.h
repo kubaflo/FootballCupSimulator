@@ -5,25 +5,27 @@
 #include "user_interface.h"
 
 class Match {
-public:
-    Team* simulateMatchAndGetWinner(Team& home, Team& away);
 
-private:
-    UserInterface userInterface;
-    int homeGoals;
-    int awayGoals;
-    int homeShots;
-    int awayShots;
-    int homeFouls;
-    int awayFouls;
-    void simulateHalf(Team& homeTeam, Team& awayTeam,int duration);
-    void extraTime(Team& homeTeam, Team& awayTeam);
-    void penalties(Team& homeTeam, Team& awayTeam);
-    void printMatchStats(Team& homeTeam, Team& awayTeam);
+    private:
+        UserInterface userInterface;
+        int homeGoals;
+        int awayGoals;
+        int homeShots;
+        int awayShots;
+        int homeFouls;
+        int awayFouls;
+        void simulateHalf(Team& homeTeam, Team& awayTeam,int duration);
+        void extraTime(Team& homeTeam, Team& awayTeam);
+        void penalties(Team& homeTeam, Team& awayTeam);
+        void printMatchStats(Team& homeTeam, Team& awayTeam);
+
+    public:
+        Team* simulateMatchAndGetWinner(Team& home, Team& away);
 };
 
 Team* Match::simulateMatchAndGetWinner(Team& homeTeam, Team& awayTeam) {
     homeGoals=awayGoals=homeShots=awayShots=homeFouls=awayFouls=0;
+
     // Display the match details
     userInterface.printLine();
     userInterface.print("MATCH: " + homeTeam.getName() + " vs " + awayTeam.getName()+"\n",userInterface.COLOR_BOLD);
@@ -37,19 +39,19 @@ Team* Match::simulateMatchAndGetWinner(Team& homeTeam, Team& awayTeam) {
     awayTeam.printTeam(true);
     userInterface.printLine();
 
-    // Simulate first half
+    // Simulate the first half
     userInterface.print("FIRST HALF\n",userInterface.COLOR_GREEN);
     userInterface.printLine();
     simulateHalf(homeTeam,awayTeam,45);
     userInterface.printLine();
 
-    // Simulate second half
+    // Simulate the second half
     userInterface.print("SECOND HALF\n",userInterface.COLOR_GREEN);
     userInterface.printLine();
     simulateHalf(homeTeam,awayTeam,45);
     userInterface.printLine();
 
-    // Check for tie and simulate extra time if necessary
+    // Check for a tie and simulate extra time if necessary
     if (homeGoals == awayGoals) {
         userInterface.printLine();
         extraTime(homeTeam,awayTeam);

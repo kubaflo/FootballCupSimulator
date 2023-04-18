@@ -14,7 +14,6 @@ int main()
     InitialRound initialRound;
     UserInterface userInterface;
     
-
     while (true)
     {
         system("clear");
@@ -46,8 +45,6 @@ int main()
 
         if (choice == 2)
             break;
-
-        // Clear the console for the next iteration
     }
 
     return 0;
